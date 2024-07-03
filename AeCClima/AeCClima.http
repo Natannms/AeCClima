@@ -1,0 +1,6 @@
+@AeCClima_HostAddress = http://localhost:5062
+
+GET {{AeCClima_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
