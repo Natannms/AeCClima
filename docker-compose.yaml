@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  aecclima:
+    build:
+      context: ./AeCClima
+      dockerfile: Dockerfile
+    image: aecclima-aecclima  # Nome da imagem correta
+    ports:
+      - "5062:8080"  # Mapeie a porta 80 do contêiner para a porta 5062 no host
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WeatherDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    command: /opt/mssql/bin/sqlservr
+  
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"  # Mapeie a porta 8080 do contêiner para a porta 8081 no host
+    environment:
+      ADMINER_DEFAULT_SERVER: sqlserver
+
+volumes:
+  sqlserverdata:

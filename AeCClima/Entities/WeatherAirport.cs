@@ -6,7 +6,7 @@ namespace AeCClima.Entities
     public class WeatherAirport
     {
         [JsonProperty("id")]
-        public int Id { get; set; }  // Defina a propriedade Id como chave primária
+        public int Id { get; set; }
         
        [JsonProperty("umidade")]
         public int Umidade { get; set; }
