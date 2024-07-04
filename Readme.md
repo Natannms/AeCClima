@@ -28,7 +28,7 @@ Navegue até o diretório do projeto clonado e execute o Docker Compose para con
 
 ```sh
 cd AeCClima
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 ### Acessar a Aplicação no Navegador

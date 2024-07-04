@@ -1,17 +1,6 @@
 version: '3.9'
 
 services:
-  aecclima:
-    build:
-      context: ./AeCClima
-      dockerfile: Dockerfile
-    image: aecclima-aecclima  # Nome da imagem correta
-    ports:
-      - "5062:8080"  # Mapeie a porta 80 do contêiner para a porta 5062 no host
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WeatherDb;User Id=sa;YourStrong!Passw0rd;TrustServerCertificate=True;
-
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: sqlserver
@@ -23,11 +12,25 @@ services:
     volumes:
       - sqlserverdata:/var/opt/mssql
     command: /opt/mssql/bin/sqlservr
-  
+
+  aecclima:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aecclima-aecclima
+    ports:
+      - "5062:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WeatherDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+    command: /bin/sh -c "./wait-for-it.sh sqlserver:1433 -- dotnet ef database update --context AppDbContext -p AeCClima/AeCClima.csproj -s AeCClima/AeCClima.csproj && dotnet AeCClima.dll"
+
   adminer:
     image: adminer
     ports:
-      - "8081:8080"  # Mapeie a porta 8080 do contêiner para a porta 8081 no host
+      - "8081:8080"
     environment:
       ADMINER_DEFAULT_SERVER: sqlserver
 
