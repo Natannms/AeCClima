@@ -10,7 +10,7 @@ services:
       - "5062:8080"  # Mapeie a porta 80 do contêiner para a porta 5062 no host
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WeatherDb;User Id=sa;Secret!Password;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WeatherDb;User Id=sa;YourStrong!Passw0rd;TrustServerCertificate=True;
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest

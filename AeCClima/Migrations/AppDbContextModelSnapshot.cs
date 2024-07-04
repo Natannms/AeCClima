@@ -57,7 +57,7 @@ namespace AeCClima.Migrations
 
                     b.HasIndex("WeatherDataId");
 
-                    b.ToTable("Climas");
+                    b.ToTable("Climas", (string)null);
                 });
 
             modelBuilder.Entity("AeCClima.Entities.WeatherAirport", b =>
@@ -113,7 +113,7 @@ namespace AeCClima.Migrations
                     b.HasIndex("CodigoIcao")
                         .HasDatabaseName("IX_CodigoIcao");
 
-                    b.ToTable("WeatherAirports");
+                    b.ToTable("WeatherAirports", (string)null);
                 });
 
             modelBuilder.Entity("AeCClima.Entities.WeatherData", b =>
@@ -137,7 +137,7 @@ namespace AeCClima.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeatherData");
+                    b.ToTable("WeatherData", (string)null);
                 });
 
             modelBuilder.Entity("AeCClima.Entities.Clima", b =>

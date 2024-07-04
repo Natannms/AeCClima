@@ -47,7 +47,7 @@ Use as seguintes credenciais e opções:
 1. **System**: MS SQL (Beta)
 2. **Server** : sqlserver
 3. **Username** : sa
-4. **Password** : Secret!Password
+4. **Password** : YourStrong!Passw0rd
 5. **Database** : WeatherDb (opcional, pode ser deixado em branco para listar todas as bases de dados)
 
 ### Documentação da API
