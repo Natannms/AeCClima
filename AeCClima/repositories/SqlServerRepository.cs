@@ -18,5 +18,11 @@ namespace AeCClima.Repositories
             _context.WeatherAirports.Add(weatherAirpot);
             await _context.SaveChangesAsync();
         }
+
+        public async Task SaveLogAsync(LogEntry logEntry)
+        {
+            _context.LogEntries.Add(logEntry);
+            await _context.SaveChangesAsync();
+        }
     }
 }

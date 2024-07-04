@@ -10,6 +10,7 @@ namespace AeCClima.Data
 
         public DbSet<WeatherData> WeatherData { get; set; }
         public DbSet<Clima> Climas { get; set; }
+        public DbSet<LogEntry> LogEntries { get; set; }
 
         public DbSet<WeatherAirport> WeatherAirports { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,6 +54,21 @@ namespace AeCClima.Data
 
                 entity.HasIndex(e => e.CodigoIcao)
                     .HasDatabaseName("IX_CodigoIcao");
+            });
+
+             // Configuração para a entidade LogEntry
+            modelBuilder.Entity<LogEntry>(entity =>
+            {
+                entity.Property(e => e.Level)
+                    .HasMaxLength(50)
+                    .IsRequired();
+
+                entity.Property(e => e.Message)
+                    .HasMaxLength(500)
+                    .IsRequired();
+
+                entity.Property(e => e.Exception)
+                    .HasMaxLength(2000);
             });
 
         }
