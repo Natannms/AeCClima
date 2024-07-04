@@ -1,6 +1,5 @@
 using AeCClima.Entities;
 using AeCClima.Repositories;
-using System.Threading.Tasks;
 
 namespace AeCClima.Services
 {
@@ -8,20 +7,59 @@ namespace AeCClima.Services
     {
         
         private readonly IWeatherRepository _weatherRepository;
+        private readonly ILogger<WeatherService> _logger;
 
-        public WeatherService(IWeatherRepository weatherRepository)
+        public WeatherService(IWeatherRepository weatherRepository,  ILogger<WeatherService> logger)
         {
             _weatherRepository = weatherRepository;
+             _logger = logger;
         }
         public async Task Create(WeatherData weatherData)
         {
-            await _weatherRepository.SaveAsync(weatherData);
+           try
+            {
+                await _weatherRepository.SaveAsync(weatherData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to save weather data");
+                await _weatherRepository.SaveLogAsync(new LogEntry
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Level = "Error",
+                    Message = "Failed to save weather data",
+                    Exception = ex.ToString()
+                });
+            }
         }
-        public async Task CreateFromAirport(WeatherAirport weatherAirpot)
+        public async Task CreateFromAirport(WeatherAirport weatherAirport)
         {
-            await _weatherRepository.SaveAsyncFromAirport(weatherAirpot);
+            try
+            {
+                await _weatherRepository.SaveAsyncFromAirport(weatherAirport);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to save airport weather data");
+                await _weatherRepository.SaveLogAsync(new LogEntry
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Level = "Error",
+                    Message = "Failed to save airport weather data",
+                    Exception = ex.ToString()
+                });
+            }
         }
-
-        // Outros métodos do serviço podem ser adicionados aqui
+         public async Task CreateLogAsync(LogEntry logEntry)
+        {
+            try
+            {
+                await _weatherRepository.SaveLogAsync(logEntry);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to save log entry");
+            }
+        }
     }
 }

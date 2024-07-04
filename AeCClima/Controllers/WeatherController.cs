@@ -48,8 +48,16 @@ namespace AeCClima.Controllers
             }
             catch (HttpRequestException ex)
             {
+                _logger.LogError(ex, "Erro ao chamar a API externa");
+                await _weatherService.CreateLogAsync(new LogEntry
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Level = "Error",
+                    Message = "Erro ao chamar a API externa",
+                    Exception = ex.ToString()
+                });
                 return StatusCode(500, new { Message = "Erro ao chamar a API externa", Details = ex.Message });
-            }
+           }
         }
 
         [HttpGet("airport/{icao}", Name = "GetWeatherByAirpot")]
@@ -76,11 +84,25 @@ namespace AeCClima.Controllers
             catch (HttpRequestException ex)
             {
                 _logger.LogError(ex, "Erro ao chamar a API externa");
+                await _weatherService.CreateLogAsync(new LogEntry
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Level = "Error",
+                    Message = "Erro ao chamar a API externa",
+                    Exception = ex.ToString()
+                });
                 return StatusCode(500, new { Message = "Erro ao chamar a API externa", Details = ex.Message });
-            }
+           }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro inesperado");
+                await _weatherService.CreateLogAsync(new LogEntry
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Level = "Error",
+                    Message = "Erro inesperado",
+                    Exception = ex.ToString()
+                });
                 return StatusCode(500, new { Message = "Erro inesperado", Details = ex.Message });
             }
         }

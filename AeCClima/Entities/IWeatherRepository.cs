@@ -7,5 +7,7 @@ namespace AeCClima.Repositories
     {
         Task SaveAsync(WeatherData weatherData);
         Task SaveAsyncFromAirport(WeatherAirport weatherAirpot);
+        Task SaveLogAsync(LogEntry logEntry);
+
     }
 }
